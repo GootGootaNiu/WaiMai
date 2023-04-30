@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace属性：用来指定当前的映射文件和那个接口进行映射
+ 需要指定接口的文件路径 需要标注包的完整性-->
+<mapper namespace="com.king.waimai.mapper.DishFlavorMapper">
+    <!--添加用户数据-->
+    <insert id="insertFlavor">
+        insert into dish_flavor(dish_id, name, value, is_deleted, create_time, create_user, update_time, update_user)
+        values (#{dishId}, #{name}, #{value}, #{isDelete}, #{createTime}, #{createUser}, #{updateTime}, #{updateUser})
+    </insert>
+    <!--根据用户的id删除用户的数据-->
+    <delete id="deleteById">
+        delete
+        from dish_flavor
+        where id = #{id}
+    </delete>
+
+    <select id="selectAll" resultType="com.king.waimai.pojo.DishFlavor">
+        select *
+        from dish_flavor;
+    </select>
+
+    <!--根据分页查询 查询出来数据-->
+    <select id="selectByDishId" resultType="com.king.waimai.pojo.DishFlavor">
+        select *
+        from dish_flavor
+        where dish_id = #{dishId}
+    </select>
+
+    <!--根据用户的id 查询-->
+    <select id="selectByIds" resultType="com.king.waimai.dto.DishDto">
+        select *
+        from dish_flavor
+        where dish_id = #{dishId}
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

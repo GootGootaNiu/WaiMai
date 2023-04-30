@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace属性：用来指定当前的映射文件和那个接口进行映射
+ 需要指定接口的文件路径 需要标注包的完整性-->
+<mapper namespace="com.king.waimai.mapper.UserMapper">
+    <!--字段映射-->
+    <resultMap id="userSelectAll" type="com.king.waimai.pojo.User">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="phone" property="phone"></result>
+        <result column="sex" property="sex"></result>
+        <result column="avatar" property="avatar"></result>
+        <result column="status" property="status"></result>
+        <result column="id_number" property="idNumber"></result>
+    </resultMap>
+
+    <!--    插入用户数据-->
+    <insert id="insertAll" useGeneratedKeys="true" keyProperty="id">
+        insert into user(id, name, phone, sex, id_number, avatar, status)
+        VALUES (#{id},#{name}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{status})
+    </insert>
+    <select id="selectAll" resultMap="userSelectAll">
+        select *
+        from user
+    </select>
+
+    <select id="selectPhone" resultType="com.king.waimai.pojo.User">
+        select *
+        from user
+        where phone = #{phone}
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

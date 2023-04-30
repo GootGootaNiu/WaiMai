@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace属性：用来指定当前的映射文件和那个接口进行映射
+ 需要指定接口的文件路径 需要标注包的完整性-->
+<mapper namespace="com.king.waimai.mapper.CategoryMapper">
+    <!--字段映射-->
+    <resultMap id="category" type="com.king.waimai.pojo.Category">
+        <id column="id" property="id"></id>
+        <result column="type" property="type"></result>
+        <result column="name" property="name"></result>
+        <result column="sort" property="sort"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="create_user" property="createUser"></result>
+        <result column="update_user" property="updateUser"></result>
+    </resultMap>
+    <sql id="select">
+        id
+        , type, name,sort, create_time, update_time, create_user, update_user
+    </sql>
+
+    <!--添加用户数据-->
+    <insert id="insertAll">
+        insert into wai_mai.category (type, name, sort, create_time, update_time, create_user, update_user)
+        VALUES (#{type}, #{name}, #{sort}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})
+    </insert>
+
+    <!--修改用户数据-->
+    <update id="updateByType">
+        update category
+        <set>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="name != null and name !=''">
+                name = #{name},
+            </if>
+            <if test="sort != null and sort !=''">
+                sort = #{sort},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser}
+            </if>
+            where id = #{id}
+        </set>
+    </update>
+
+    <!--根据用户id 删除用户信息-->
+    <delete id="deleteById">
+        delete
+        from category
+        where id = #{id}
+    </delete>
+
+
+    <select id="selectAll" resultType="com.king.waimai.pojo.Category">
+        select *
+        from category
+    </select>
+
+
+    <!--分页查询用户的数据-->
+    <select id="selectAlls" resultType="com.king.waimai.pojo.Category">
+        select *
+        from category
+        order by id desc limit #{page}, #{pageSize}
+    </select>
+    <!--把查询到的页码返回-->
+    <select id="count" resultType="java.lang.Integer">
+        select count(*)
+        from category
+    </select>
+
+    <!--    根据用户的name 查询菜单信息-->
+    <select id="SelectByName" resultType="com.king.waimai.pojo.Category">
+        select *
+        from category
+        where name = #{name}
+    </select>
+
+    <!-- 查询用户的下拉框-->
+    <select id="selectByType" resultType="com.king.waimai.pojo.Category">
+        select *
+        from category
+        where type = #{type}
+    </select>
+
+
+    <select id="selectBycategory" resultType="com.king.waimai.pojo.Category">
+            select * from category
+            <where>
+                <if test="type != null and type != 0">
+                    type = #{type}
+                </if>
+                <if test="name != null">
+                    and name = #{name}
+                </if>
+                <if test="sort != null and sort != 0">
+                    and sort = #{sort}
+                </if>
+                <if test="id != null and id!= 0">
+                    and id = #{id}
+                </if>
+            </where>
+    </select>
+
+    <select id="list" resultType="com.king.waimai.pojo.Category">
+        select * from category
+        <where>
+            <if test="type != null and type != 0">
+                type = #{type}
+            </if>
+            <if test="name != null">
+                and name = #{name}
+            </if>
+            <if test="sort != null and sort != 0">
+                and sort = #{sort}
+            </if>
+            <if test="id != null and id!= 0">
+                and id = #{id}
+            </if>
+        </where>
+
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace属性：用来指定当前的映射文件和那个接口进行映射
+ 需要指定接口的文件路径 需要标注包的完整性-->
+<mapper namespace="com.king.waimai.mapper.ShoppingCartMapper">
+
+    <resultMap id="shoppingCartMap" type="com.king.waimai.pojo.ShoppingCart">
+        <result property="userId" column="user_id"/>
+        <result property="dishId" column="dish_id"/>
+        <result property="setmealId" column="setmeal_id"/>
+        <result property="dishFlavor" column="dish_flavor"/>
+    </resultMap>
+    <!--添加数据到购物车中去-->
+    <insert id="add">
+        insert into shopping_cart(id, name, image, user_id, dish_id, setmeal_id, dish_flavor, amount, create_time)
+        VALUES (#{id}, #{name}, #{image}, #{userId}, #{dishId}, #{setmealId}, #{dishFlavor}, #{amount}, #{createTime})
+    </insert>
+
+    <update id="update">
+        update shopping_cart
+        <set>
+            <if test="number != null">
+                number = #{number},
+            </if>
+            <if test="amount != null">
+                amount = #{amount}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--清空购物车-->
+    <delete id="deleteByUserId">
+        delete
+        from shopping_cart
+        where user_id = #{userId}
+    </delete>
+
+    <!--addOne 查询用户的id -->
+    <select id="addOne" resultMap="shoppingCartMap">
+        select *
+        from shopping_cart
+        <where>
+            <if test="dishId != null and dishId != ''">
+                dish_id = #{dishId}
+            </if>
+            <if test="setmealId != null and setmealId != ''">
+                and setmeal_id = #{setmealId}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id != #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!--查询全部-->
+    <select id="selectAll" resultType="com.king.waimai.pojo.ShoppingCart">
+        select *
+        from shopping_cart
+    </select>
+
+    <!--根据用户的id 查询数据-->
+    <select id="selectByUserId" resultType="com.king.waimai.pojo.ShoppingCart">
+        select *
+        from shopping_cart
+        where user_id = #{userId}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

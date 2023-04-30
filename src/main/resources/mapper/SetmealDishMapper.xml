@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace属性：用来指定当前的映射文件和那个接口进行映射
+ 需要指定接口的文件路径 需要标注包的完整性-->
+<mapper namespace="com.king.waimai.mapper.SetmealDishMapper">
+    <!--字段映射-->
+    <resultMap id="category" type="com.king.waimai.pojo.SetmealDish">
+        <id column="id" property="id"></id>
+        <result column="setmeal_id" property="setmealId"></result>
+        <result column="dish_id" property="dishId"></result>
+        <result column="name" property="name"></result>
+        <result column="price" property="price"></result>
+        <result column="copies" property="copies"></result>
+        <result column="sort" property="sort"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="create_user" property="createUser"></result>
+        <result column="update_user" property="updateUser"></result>
+        <result column="is_deleted" property="isDeleted"></result>
+    </resultMap>
+    <sql id="select">
+        id
+        , setmeal_id, dish_id, name, price, copies, sort, create_time, update_time,
+                                 create_user, update_user, is_deleted
+    </sql>
+
+    <!--根据id删除用户数据-->
+    <delete id="deleteByIds">
+        delete
+        from setmeal_dish
+        where id = #{id}
+    </delete>
+
+    <select id="selectAll" resultMap="category">
+        select
+        <include refid="select"></include>
+        from setmeal_dish;
+    </select>
+
+
+    <!--添加用户数据-->
+    <insert id="insertAll" keyProperty="id" useGeneratedKeys="true">
+        insert into setmeal_dish(setmeal_id, dish_id, name, price, copies, sort, is_deleted,
+                                 create_time, create_user, update_time, update_user)
+        values (#{setmealId}, #{dishId}, #{name}, #{price}, #{copies},
+                #{sort}, #{isDeleted}, #{createTime}, #{createUser},
+                #{updateTime}, #{updateUser})
+    </insert>
+
+    <!--根据用户id 查询用户数据-->
+    <select id="selectByID" resultType="com.king.waimai.pojo.SetmealDish">
+        select *
+        from setmeal_dish
+        where id = #{id}
+    </select>
+    <select id="selectByDishId" resultType="com.king.waimai.pojo.SetmealDish">
+        select *
+        from setmeal_dish
+        where setmeal_id = #{setmealId}
+    </select>
+
+    <!-- 根据 id 查询用户数据-->
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

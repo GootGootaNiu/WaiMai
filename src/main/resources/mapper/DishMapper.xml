@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace属性：用来指定当前的映射文件和那个接口进行映射
+ 需要指定接口的文件路径 需要标注包的完整性-->
+<mapper namespace="com.king.waimai.mapper.DishMapper">
+
+    <!--添加Dish 数据-->
+    <!--    <insert id="insertAll">-->
+    <!--        insert into dish(name, category_id, price, code, image, description, status, sort, create_time, update_time,-->
+    <!--                         create_user, update_user, is_deleted)-->
+    <!--        values (#{name}, #{categoryId}, #{price}, #{code}, #{image},-->
+    <!--                #{description}, #{status}, #{sort}, #{isDeleted},-->
+    <!--                #{createTime}, #{createUser}, #{updateTime}, #{updateUser})-->
+
+    <!--    </insert>-->
+
+    <!--添加菜品信息-->
+    <insert id="insertAll">
+        insert into dish(name, category_id, price, code, image, description, status, sort,
+                         is_deleted, create_time, create_user, update_time, update_user)
+        values (#{name}, #{categoryId}, #{price}, #{code}, #{image},
+                #{description}, #{status}, #{sort}, #{isDeleted},
+                #{createTime}, #{createUser}, #{updateTime}, #{updateUser})
+    </insert>
+
+    <!--状态信息-->
+    <update id="updateStatus">
+        update dish
+        set status = #{status}
+        where id in
+        <foreach collection="id" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!--修改菜品信息-->
+    <update id="updateAll">
+        update dish
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="image != null">
+                image = #{image},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="createUser != null">
+                create_user = #{createUser},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted =#{isDeleted}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <!--根据用户的数据删除用户的信息-->
+    <delete id="deleteById">
+        delete
+        from dish
+        where id = #{id}
+    </delete>
+
+    <select id="selectAll" resultType="com.king.waimai.pojo.Dish">
+        select *
+        from dish;
+    </select>
+
+
+    <!--分页查询用户信息-->
+    <select id="selectByName" resultType="com.king.waimai.pojo.Dish">
+        select *
+        from dish
+        <where>
+            <if test="name != null and name !=''">
+                name like concat('%',#{name},'%')
+            </if>
+        </where>
+        limit #{page},#{pageSize}
+    </select>
+    <!--查询有多少条数据-->
+    <select id="count" resultType="java.lang.Integer">
+        select count(*)
+        from dish
+    </select>
+
+
+    <select id="queryDishList" resultType="com.king.waimai.pojo.Dish">
+        select dish.id,
+        dish.name,
+        category_id,
+        price,
+        code,
+        image,
+        description,
+        status,
+        dish.sort,
+        dish.create_time,
+        dish.update_time,
+        dish.create_user,
+        dish.update_user,
+        category.name categoryName
+        from dish
+        left join category on dish.category_id = category.id
+        <where>
+            <if test="name!='' and name!=null">
+                name like '%${name}%'
+            </if>
+            and is_deleted = 0 order by create_time desc limit #{page},#{pageSize}
+        </where>
+    </select>
+
+    <select id="selectById" resultType="com.king.waimai.pojo.Category">
+        select *
+        from category
+        where id = #{id};
+    </select>
+    <!--根据用户名称动态的查询用户数据-->
+    <select id="getByName" resultType="com.king.waimai.pojo.Dish">
+        select *
+        from dish
+        <where>
+            <if test="name != null and name != ''">
+                name =#{name}
+            </if>
+        </where>
+    </select>
+
+    <!--    根据用户的categoryId 查询出用户的多条数据-->
+    <select id="getBydIshCategoryId" resultType="com.king.waimai.pojo.Dish">
+        select *
+        from dish
+        <where>
+            <if test="categoryId != null and categoryId != ''">
+                category_id =#{categoryId}
+            </if>
+        </where>
+    </select>
+
+    <!--根据用户数据查询用户信息-->
+    <select id="selectByIds" resultType="com.king.waimai.pojo.Dish">
+        select *
+        from dish
+        where id = #{id}
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

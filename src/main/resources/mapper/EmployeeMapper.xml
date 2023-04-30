@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace属性：用来指定当前的映射文件和那个接口进行映射
+ 需要指定接口的文件路径 需要标注包的完整性-->
+<mapper namespace="com.king.waimai.mapper.EmployeeMapper">
+    <!--字段映射-->
+    <resultMap id="employee" type="com.king.waimai.pojo.Employee">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <result column="phone" property="phone"></result>
+        <result column="sex" property="sex"></result>
+        <result column="status" property="status"></result>
+        <result column="id_number" property="idNumber"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="create_user" property="createUser"></result>
+        <result column="update_user" property="updateUser"></result>
+    </resultMap>
+    <sql id="select">
+        id
+        ,name,username,password,phone,sex,id_number,status,create_time,update_time,create_user,update_user
+    </sql>
+
+    <select id="selectAll" resultMap="employee">
+        select
+        <include refid="select"></include>
+        from employee
+    </select>
+
+    <!--根据用户名查询用户信息-->
+    <select id="selectByUsername" resultMap="employee">
+        select
+        <include refid="select"></include>
+        from employee
+        where username = #{username}
+    </select>
+
+
+    <!--添加员工信息-->
+    <insert id="insertALl">
+        insert into wai_mai.employee(id, name, username, password, phone, sex, id_number, create_time, update_time,
+                                     create_user,
+                                     update_user)
+        VALUES (#{id}, #{name}, #{username}, #{password}, #{phone}, #{sex}, #{idNumber}, #{createTime},
+                #{updateTime}, #{createUser}, #{updateUser})
+    </insert>
+
+
+    <select id="selectLimit" resultType="com.king.waimai.pojo.Employee">
+        select
+        *
+        from employee
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%',#{name},'%')
+            </if>
+        </where>
+        ORDER BY update_time DESC LIMIT #{page},#{pageSize} ;
+    </select>
+
+    <!--sql语句设计-->
+    <select id="selectAlls" resultMap="employee">
+        select *
+        from employee
+        <where>
+            <if test="name != null and name != ''">
+                name = #{name}
+            </if>
+        </where>
+    </select>
+
+
+    <!-- 禁用 -->
+    <update id="updateAll">
+        update wai_mai.employee
+        set status = #{status}
+        where id = #{id};
+    </update>
+
+    <!--根据用户id 查询用户信息-->
+    <select id="selectById" resultMap="employee">
+        select
+        <include refid="select"></include>
+        from employee
+        where id = #{id}
+    </select>
+
+    <!--用户禁用-->
+    <update id="updateId">
+        update employee
+        <set>
+            <if test="username!= null and username != ''">
+                username = #{username},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="idNumber != null">
+                id_number = #{idNumber},
+            </if>
+            <if test="updateTime!=null">
+                update_time=#{updateTime},
+            </if>
+            <if test="updateUser!=null">
+                update_user=#{updateUser},
+            </if>
+            status=#{status}
+        </set>
+        where id = #{id};
+    </update>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
